@@ -52,7 +52,7 @@ class MarkerDialogFragment : BottomSheetDialogFragment() {
         markerSaveButton.setOnClickListener {
             marker.title = dialogFragmentMarkerTitle.text.toString()
             marker.snippet = dialogFragmentMarkerSnippet.text.toString()
-            model.addMarkerToList(marker)
+            model.editMarker(marker)
             hideDialogFragment()
             showMarkersListFragment()
         }

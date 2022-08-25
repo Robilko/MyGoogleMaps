@@ -255,6 +255,7 @@ class MapsFragment : Fragment() {
     }
 
     companion object {
+        fun newInstance() = MapsFragment()
         private val TAG = MainActivity::class.java.simpleName
         private const val DEFAULT_ZOOM = 15
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1

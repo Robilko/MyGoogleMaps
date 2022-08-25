@@ -50,7 +50,7 @@ class MarkersListFragment : Fragment() {
         if (markers.isNullOrEmpty()) {
             emptyListImage.visibility = View.VISIBLE
         } else {
-            model.markers.observe(requireActivity()) { markersListAdapter.submitList(it) }
+           markersListAdapter.submitList(markers)
         }
     }
 

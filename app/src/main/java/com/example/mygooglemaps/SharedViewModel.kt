@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.Marker
 
 class SharedViewModel : ViewModel() {
 
-    val markers = MutableLiveData<MutableList<Marker>>()
+    private val markers = MutableLiveData<MutableList<Marker>>()
 
     fun addMarkerToList(marker: Marker) {
         if (markers.value.isNullOrEmpty()) {
@@ -14,6 +14,15 @@ class SharedViewModel : ViewModel() {
         } else {
             markers.value!!.add(marker)
         }
+    }
+
+    fun editMarker(marker: Marker) {
+        markers.value = markers.value?.map { if (it.id == marker.id) {
+            marker
+        } else {
+            it
+        }
+        }?.toMutableList()
     }
 
     fun getAllMarkers(): MutableList<Marker> = markers.value ?: mutableListOf()
