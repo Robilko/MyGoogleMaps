@@ -2,22 +2,27 @@ package com.example.mygooglemaps
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
+import com.example.mygooglemaps.Utils.Companion.TAG_MAP_FRAGMENT
+import com.example.mygooglemaps.Utils.Companion.TAG_MARKERS_LIST_FRAGMENT
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initView()
+        initMapFragment()
     }
 
-    private fun initView() {
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, MapsFragment()).commit()
+    private fun initMapFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, MapsFragment(), TAG_MAP_FRAGMENT)
+            .commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.current_place_menu, menu)
-        return true
+    override fun onBackPressed() {
+        supportFragmentManager.findFragmentByTag(TAG_MARKERS_LIST_FRAGMENT)?.let {
+            supportFragmentManager.beginTransaction().replace(R.id.main_container, MapsFragment(), TAG_MAP_FRAGMENT).commit()
+        } ?: super.onBackPressed()
     }
+
 }
