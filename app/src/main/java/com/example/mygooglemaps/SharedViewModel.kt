@@ -26,4 +26,6 @@ class SharedViewModel : ViewModel() {
     }
 
     fun getAllMarkers(): MutableList<Marker> = markers.value ?: mutableListOf()
+
+    fun getSize(): Int = markers.value?.size ?: 0
 }

@@ -8,4 +8,7 @@
     <string name="save_button">Save</string>
     <string name="marker_title">Title</string>
     <string name="marker_annotation">Annotation</string>
+    <string name="marker_latitude">Latitude:</string>
+    <string name="marker_longitude">Longitude:</string>
+    <string name="empty_snippet_text">Empty</string>
 </resources>

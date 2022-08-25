@@ -33,6 +33,8 @@ class MarkersListAdapter(private val listener: RecyclerItemListener) : RecyclerV
         fun bind(item: Marker) = with(binding) {
             markerTitle.text = item.title
             markerSnippet.text = item.snippet
+            markerLatitude.text = item.position.latitude.toString()
+            markerLongitude.text = item.position.longitude.toString()
 
             itemView.setOnClickListener{ listener.onItemClick(marker = item) }
         }

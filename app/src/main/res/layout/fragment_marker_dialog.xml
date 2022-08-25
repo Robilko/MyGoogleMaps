@@ -9,28 +9,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_title"
-        android:layout_marginHorizontal="@dimen/margin_16"/>
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:text="@string/marker_title" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/dialog_fragment_marker_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/margin_16"
-        tools:text="@string/hello_blank_fragment" />
+        android:selectAllOnFocus="true"
+        tools:text="@string/marker_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/marker_annotation"
-        android:layout_marginHorizontal="@dimen/margin_16"/>
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:text="@string/marker_annotation" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/dialog_fragment_marker_snippet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/margin_16"
-        tools:text="@string/hello_blank_fragment" />
+        android:selectAllOnFocus="true"
+        tools:text="@string/empty_snippet_text" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/marker_save_button"

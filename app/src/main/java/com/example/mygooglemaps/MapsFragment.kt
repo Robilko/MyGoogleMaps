@@ -3,7 +3,6 @@ package com.example.mygooglemaps
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -129,8 +128,8 @@ class MapsFragment : Fragment() {
     }
 
     private fun addMarkerToList(latLng: LatLng) {
-        val addressName = getAddress(latLng)
-        val marker = setMarker(latLng, addressName, null)
+        val addressName = "Marker ${model.getSize() + 1}"
+        val marker = setMarker(latLng, addressName, getString(R.string.empty_snippet_text))
         model.addMarkerToList(marker)
     }
 
@@ -138,12 +137,6 @@ class MapsFragment : Fragment() {
         map.addMarker(
             MarkerOptions().position(latLng).title(addressName ?: "").snippet(annotation ?: "")
         )!!
-
-    private fun getAddress(latLng: LatLng): String {
-        val geoCoder = Geocoder(requireContext())
-        val addresses = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-        return addresses[0].getAddressLine(0)
-    }
 
     /**
      * Получает текущее местоположение устройства и позиционирует камеру карты.
