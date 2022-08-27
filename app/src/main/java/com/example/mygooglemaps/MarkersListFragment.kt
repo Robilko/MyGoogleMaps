@@ -1,5 +1,6 @@
 package com.example.mygooglemaps
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,15 +16,20 @@ class MarkersListFragment : Fragment() {
     private var _binding: FragmentMarkersListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var model: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     private val recyclerItemListener = object : RecyclerItemListener {
         override fun onItemClick(marker: Marker) {
             showEditMarkerDialogFragment(marker.id)
         }
+
+        override fun onItemLongClick(marker: Marker) {
+            showDeleteDialog(marker)
+        }
     }
 
-    private val markersListAdapter: MarkersListAdapter = MarkersListAdapter(listener = recyclerItemListener)
+    private val markersListAdapter: MarkersListAdapter =
+        MarkersListAdapter(listener = recyclerItemListener)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,20 +52,35 @@ class MarkersListFragment : Fragment() {
 
     private fun initView() = with(binding) {
         mainRecycler.adapter = markersListAdapter
-        val markers = model.getAllMarkers()
+        val markers = sharedViewModel.getAllMarkers()
         if (markers.isNullOrEmpty()) {
             emptyListImage.visibility = View.VISIBLE
         } else {
-           markersListAdapter.submitList(markers)
+            markersListAdapter.submitList(markers)
+        }
+        sharedViewModel.markersLiveData.observe(requireActivity()) {
+            markersListAdapter.submitList(
+                it
+            )
         }
     }
 
     private fun initViewModel() {
-        model = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
     }
 
     private fun showEditMarkerDialogFragment(markerId: String) {
-        MarkerDialogFragment.newInstance(markerId).show(parentFragmentManager, TAG_EDIT_MARKER_DIALOG_FRAGMENT)
+        MarkerDialogFragment.newInstance(markerId)
+            .show(parentFragmentManager, TAG_EDIT_MARKER_DIALOG_FRAGMENT)
+    }
+
+    private fun showDeleteDialog(marker: Marker) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.delete_warning)
+            .setPositiveButton(R.string.yes_button) { _, _ -> sharedViewModel.deleteMarker(marker) }
+            .setNegativeButton(R.string.no_button) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
 
     companion object {

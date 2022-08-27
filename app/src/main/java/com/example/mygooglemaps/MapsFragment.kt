@@ -39,7 +39,7 @@ class MapsFragment : Fragment() {
     // местоположение, полученное провайдером объединенных местоположений.
     private var lastKnownLocation: Location? = null
 
-    private lateinit var model: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     /**
      * Управляет картой, когда она доступна.
@@ -60,6 +60,8 @@ class MapsFragment : Fragment() {
         }
 
         setMarkersToMap()
+
+        setOnMarkersChangeListener()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +88,7 @@ class MapsFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        model = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         mapFragment?.getMapAsync(callback)
     }
 
@@ -123,14 +125,19 @@ class MapsFragment : Fragment() {
         return true
     }
 
+    private fun setOnMarkersChangeListener() {
+        sharedViewModel.markersLiveData.observe(requireActivity()) { setMarkersToMap() }
+    }
+
     private fun setMarkersToMap() {
-        model.getAllMarkers().forEach { marker -> setMarker(marker.position, marker.title, marker.snippet) }
+        sharedViewModel.getAllMarkers()
+            .forEach { marker -> setMarker(marker.position, marker.title, marker.snippet) }
     }
 
     private fun addMarkerToList(latLng: LatLng) {
-        val addressName = "Marker ${model.getSize() + 1}"
+        val addressName = "Marker ${sharedViewModel.getSize() + 1}"
         val marker = setMarker(latLng, addressName, getString(R.string.empty_snippet_text))
-        model.addMarkerToList(marker)
+        sharedViewModel.addMarkerToList(marker)
     }
 
     private fun setMarker(latLng: LatLng, addressName: String?, annotation: String?): Marker =
