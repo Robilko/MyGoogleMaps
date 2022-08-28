@@ -2,4 +2,6 @@
 <resources>
     <dimen name="margin_16">16dp</dimen>
     <dimen name="margin_4">4dp</dimen>
+    <dimen name="snippet_text_size">15sp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
 </resources>

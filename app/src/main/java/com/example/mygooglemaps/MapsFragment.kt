@@ -3,7 +3,6 @@ package com.example.mygooglemaps
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -40,7 +39,7 @@ class MapsFragment : Fragment() {
     // местоположение, полученное провайдером объединенных местоположений.
     private var lastKnownLocation: Location? = null
 
-    private lateinit var model: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     /**
      * Управляет картой, когда она доступна.
@@ -61,6 +60,8 @@ class MapsFragment : Fragment() {
         }
 
         setMarkersToMap()
+
+        setOnMarkersChangeListener()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +88,7 @@ class MapsFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        model = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         mapFragment?.getMapAsync(callback)
     }
 
@@ -124,26 +125,25 @@ class MapsFragment : Fragment() {
         return true
     }
 
+    private fun setOnMarkersChangeListener() {
+        sharedViewModel.markersLiveData.observe(requireActivity()) { setMarkersToMap() }
+    }
+
     private fun setMarkersToMap() {
-        model.getAllMarkers().forEach { marker -> setMarker(marker.position, marker.title, marker.snippet) }
+        sharedViewModel.getAllMarkers()
+            .forEach { marker -> setMarker(marker.position, marker.title, marker.snippet) }
     }
 
     private fun addMarkerToList(latLng: LatLng) {
-        val addressName = getAddress(latLng)
-        val marker = setMarker(latLng, addressName, null)
-        model.addMarkerToList(marker)
+        val addressName = "Marker ${sharedViewModel.getSize() + 1}"
+        val marker = setMarker(latLng, addressName, getString(R.string.empty_snippet_text))
+        sharedViewModel.addMarkerToList(marker)
     }
 
     private fun setMarker(latLng: LatLng, addressName: String?, annotation: String?): Marker =
         map.addMarker(
             MarkerOptions().position(latLng).title(addressName ?: "").snippet(annotation ?: "")
         )!!
-
-    private fun getAddress(latLng: LatLng): String {
-        val geoCoder = Geocoder(requireContext())
-        val addresses = geoCoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-        return addresses[0].getAddressLine(0)
-    }
 
     /**
      * Получает текущее местоположение устройства и позиционирует камеру карты.
@@ -255,6 +255,7 @@ class MapsFragment : Fragment() {
     }
 
     companion object {
+        fun newInstance() = MapsFragment()
         private val TAG = MainActivity::class.java.simpleName
         private const val DEFAULT_ZOOM = 15
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1

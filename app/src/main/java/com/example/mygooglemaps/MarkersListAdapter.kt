@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mygooglemaps.databinding.MarkersListRecyclerItemBinding
 import com.google.android.gms.maps.model.Marker
 
-class MarkersListAdapter(private val listener: RecyclerItemListener) : RecyclerView.Adapter<MarkersListAdapter.MarkersViewHolder>() {
+class MarkersListAdapter(private val listener: RecyclerItemListener) :
+    RecyclerView.Adapter<MarkersListAdapter.MarkersViewHolder>() {
 
     private val newsListDiffer = AsyncListDiffer(this, DIFF_CALLBACK)
 
-    fun submitList(list: MutableList<Marker>) = newsListDiffer.submitList(list)
+    fun submitList(list: List<Marker>) = newsListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarkersViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,8 +34,14 @@ class MarkersListAdapter(private val listener: RecyclerItemListener) : RecyclerV
         fun bind(item: Marker) = with(binding) {
             markerTitle.text = item.title
             markerSnippet.text = item.snippet
+            markerLatitude.text = item.position.latitude.toString()
+            markerLongitude.text = item.position.longitude.toString()
 
-            itemView.setOnClickListener{ listener.onItemClick(marker = item) }
+            itemView.setOnClickListener { listener.onItemClick(marker = item) }
+            itemView.setOnLongClickListener {
+                listener.onItemLongClick(marker = item)
+                true
+            }
         }
 
     }

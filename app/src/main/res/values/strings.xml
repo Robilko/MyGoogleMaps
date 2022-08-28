@@ -8,4 +8,10 @@
     <string name="save_button">Save</string>
     <string name="marker_title">Title</string>
     <string name="marker_annotation">Annotation</string>
+    <string name="marker_latitude">Latitude:</string>
+    <string name="marker_longitude">Longitude:</string>
+    <string name="empty_snippet_text">Empty</string>
+    <string name="delete_warning">Are you sure you want to delete the marker?</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
 </resources>

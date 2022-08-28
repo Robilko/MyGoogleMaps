@@ -17,7 +17,7 @@ class MarkerDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMarkerDialogBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var model: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     private val markerId: String by lazy { requireArguments().getString(ARG_MARKER_ID, "") }
 
@@ -42,7 +42,7 @@ class MarkerDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViewModel() {
-        model = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
     }
 
     private fun initView() = with(binding) {
@@ -52,7 +52,7 @@ class MarkerDialogFragment : BottomSheetDialogFragment() {
         markerSaveButton.setOnClickListener {
             marker.title = dialogFragmentMarkerTitle.text.toString()
             marker.snippet = dialogFragmentMarkerSnippet.text.toString()
-            model.addMarkerToList(marker)
+            sharedViewModel.editMarker(marker)
             hideDialogFragment()
             showMarkersListFragment()
         }
@@ -65,12 +65,16 @@ class MarkerDialogFragment : BottomSheetDialogFragment() {
 
     private fun showMarkersListFragment() {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, MarkersListFragment.newInstance(), TAG_MARKERS_LIST_FRAGMENT).commit()
+            .replace(
+                R.id.main_container,
+                MarkersListFragment.newInstance(),
+                TAG_MARKERS_LIST_FRAGMENT
+            ).commit()
     }
 
 
     private fun getMarkerById(markerId: String): Marker =
-        model.getAllMarkers().find { it.id == markerId }!!
+        sharedViewModel.getAllMarkers().find { it.id == markerId }!!
 
     companion object {
         private const val ARG_MARKER_ID = "arg_marker_id"

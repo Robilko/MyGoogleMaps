@@ -15,13 +15,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initMapFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, MapsFragment(), TAG_MAP_FRAGMENT)
+            .replace(R.id.main_container, MapsFragment.newInstance(), TAG_MAP_FRAGMENT)
             .commit()
     }
 
     override fun onBackPressed() {
         supportFragmentManager.findFragmentByTag(TAG_MARKERS_LIST_FRAGMENT)?.let {
-            supportFragmentManager.beginTransaction().replace(R.id.main_container, MapsFragment(), TAG_MAP_FRAGMENT).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.main_container, MapsFragment.newInstance(), TAG_MAP_FRAGMENT).commit()
         } ?: super.onBackPressed()
     }
 
