@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.utils
 
 class Utils {
     companion object{

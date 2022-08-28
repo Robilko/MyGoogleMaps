@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.view.markers
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
-import com.example.mygooglemaps.Utils.Companion.TAG_EDIT_MARKER_DIALOG_FRAGMENT
-import com.example.mygooglemaps.Utils.Companion.TAG_MARKERS_LIST_FRAGMENT
+import com.example.mygooglemaps.R
+import com.example.mygooglemaps.utils.Utils.Companion.TAG_EDIT_MARKER_DIALOG_FRAGMENT
+import com.example.mygooglemaps.utils.Utils.Companion.TAG_MARKERS_LIST_FRAGMENT
 import com.example.mygooglemaps.databinding.FragmentMarkerDialogBinding
+import com.example.mygooglemaps.viewmodel.SharedViewModel
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
