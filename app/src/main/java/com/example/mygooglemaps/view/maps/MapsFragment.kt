@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.view.maps
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,7 +11,11 @@ import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.mygooglemaps.Utils.Companion.TAG_MARKERS_LIST_FRAGMENT
+import com.example.mygooglemaps.view.markers.MarkersListFragment
+import com.example.mygooglemaps.R
+import com.example.mygooglemaps.utils.Utils.Companion.TAG_MARKERS_LIST_FRAGMENT
+import com.example.mygooglemaps.view.main.MainActivity
+import com.example.mygooglemaps.viewmodel.SharedViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory

@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.view.markers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

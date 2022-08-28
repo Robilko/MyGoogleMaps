@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.view.markers
 
 import com.google.android.gms.maps.model.Marker
 

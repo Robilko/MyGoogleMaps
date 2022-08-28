@@ -1,4 +1,4 @@
-package com.example.mygooglemaps
+package com.example.mygooglemaps.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
